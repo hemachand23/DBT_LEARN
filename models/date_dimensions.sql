@@ -6,10 +6,8 @@ WITH CTE AS (
     case when DAYNAME(TO_TIMESTAMP(STARTED_AT)) in ('Sat', 'Sun') then 'WEEKEND'
     else 'BUSINESSDAY' end as DAY_TYPE,
     MONTHNAME(TO_TIMESTAMP(STARTED_AT)) AS MONTH_NAME,
-    CASE WHEN MONTH(TO_TIMESTAMP(STARTED_AT)) IN (11,12,1) THEN 'WINTER'
-    WHEN MONTH(TO_TIMESTAMP(STARTED_AT)) IN (2,3,4) THEN 'SPRING'
-    WHEN MONTH(TO_TIMESTAMP(STARTED_AT)) IN (5,6,7) THEN 'SUMMER'
-    ELSE 'AUTUMN' END AS SEASON
+    {{get_season('STARTED_AT')}} AS SEASON,
+    {{temporal_status('STARTED_AT')}} as TEMPORAL_STATUS
     from {{ source('demo', 'bike') }}
     where STARTED_AT != 'started_at'
    
