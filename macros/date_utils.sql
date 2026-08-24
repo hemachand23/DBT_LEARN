@@ -10,3 +10,8 @@
     WHEN MONTH(TO_TIMESTAMP({{x}})) IN (5,6,7) THEN 'SUMMER'
     ELSE 'AUTUMN' END
 {% endmacro %}
+
+{% macro day_type(x) %}
+    case when DAYNAME(TO_TIMESTAMP({{x}})) in ('Sat', 'Sun') then 'WEEKEND'
+    else 'BUSINESSDAY' end
+{% endmacro %}
